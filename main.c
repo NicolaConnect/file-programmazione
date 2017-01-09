@@ -10,7 +10,7 @@ typedef struct user {
 
 int main(int argc, char *argv[]) {
 	int choose;
-	FILE *out;
+	FILE *usersFile;
 	
 	while(choose != 3) {
 		system("CLS");
@@ -23,10 +23,10 @@ int main(int argc, char *argv[]) {
 		
 		switch(choose) {
 			case 1:
-				addUser(out);
+				addUser(usersFile);
 				break;
 			case 2:
-				showUsers(out);
+				showUsers(usersFile);
 				break;
 			default:
 				break;
@@ -36,16 +36,16 @@ int main(int argc, char *argv[]) {
 	return 0;
 }
 
-void addUser(FILE *out) {
+void addUser(FILE *usersFile) {
 	char name[100];
 	char surname[100];
 	int age;
 	user rec;
 	
 	system("CLS");
-	out = fopen("test.txt", "a");
-	if(out == NULL) {
-		printf("[err] Error while opening the file.");
+	usersFile = fopen("test.txt", "a");
+	if(usersFile == NULL) {
+		printf("[err] Error while opening the usersFile.");
 		exit(1);
 	}
 	printf("[i] Insert your name: ");
@@ -59,30 +59,30 @@ void addUser(FILE *out) {
 	strcpy(rec.surname, surname);
 	rec.age = age;
 	
-	fprintf(out, "%s %s %d\n", rec.name, rec.surname, rec.age);
-	fclose(out);
+	fprintf(usersFile, "%s %s %d\n", rec.name, rec.surname, rec.age);
+	fclose(usersFile);
 	
 	printf("[ok] User added correctly.\n");
 	system("PAUSE");
 }
 
-void showUsers(FILE *out) {
+void showUsers(FILE *usersFile) {
 	char name[100];
 	char surname[100];
 	int age;
 	user rec;
 	
 	system("CLS");
-	out = fopen("test.txt", "r");
-	if(out == NULL) {
-		printf("[err] File non aperto.");
+	usersFile = fopen("test.txt", "r");
+	if(usersFile == NULL) {
+		printf("[err] usersFile non aperto.");
 		exit(1);
 	}
 	printf("Name       | Surname    | Age \n");
-	while(!feof(out)) {
-		fscanf(out, "%s%s%d\n", &rec.name, &rec.surname, &rec.age);
+	while(!feof(usersFile)) {
+		fscanf(usersFile, "%s%s%d\n", &rec.name, &rec.surname, &rec.age);
 		printf("%10s | %10s | %10d\n", rec.name, rec.surname, rec.age);
 	}
-	fclose(out);
+	fclose(usersFile);
 	system("PAUSE");
 }
