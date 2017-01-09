@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
 				break;
 			case 5:
 				usersFile = fopen("test.txt", "r");
-				// lookupByAge(usersFile);
+				lookupByAge(usersFile);
 				fclose(usersFile);
 				break;
 			default:
@@ -143,6 +143,29 @@ void lookupBySurname(FILE *usersFile) {
 	while(!feof(usersFile)) {
 		fscanf(usersFile, "%s%s%d\n", &rec.name, &rec.surname, &rec.age);
 		if(strcmp(rec.surname, surname) == 0)
+			printf("%10s | %10s | %10d\n", rec.name, rec.surname, rec.age);
+	}
+	fclose(usersFile);
+	system("PAUSE");
+}
+
+void lookupByAge(FILE *usersFile) {
+	int age;
+	user rec;
+	
+	system("CLS");
+	printf("[i] Insert age to search for: ");
+	scanf("%d", &age);
+	
+	system("CLS");
+	if(usersFile == NULL) {
+		printf("[err] Error while opening the usersFile.");
+		exit(1);
+	}
+	printf("Name       | Surname    | Age \n");
+	while(!feof(usersFile)) {
+		fscanf(usersFile, "%s%s%d\n", &rec.name, &rec.surname, &rec.age);
+		if(rec.age == age)
 			printf("%10s | %10s | %10d\n", rec.name, rec.surname, rec.age);
 	}
 	fclose(usersFile);
