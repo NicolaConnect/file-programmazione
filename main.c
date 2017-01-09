@@ -28,6 +28,7 @@ int main(int argc, char *argv[]) {
 	
 	out = fopen("test.txt", "w");
 	if(out == NULL) {
+		printf("[err] Error while opening the file.");
 		exit(1);
 	}
 	fprintf(out, "%s %s %d\n", rec.name, rec.surname, rec.age);
