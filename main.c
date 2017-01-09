@@ -12,15 +12,22 @@ int main(int argc, char *argv[]) {
 	int choose;
 	FILE *usersFile;
 	
-	while(choose != 6) {
+	while(choose != 13) {
 		system("CLS");
 		printf("Menu:\n");
-		printf("1.\tAdd user\n");
-		printf("2.\tShow users\n");
-		printf("3.\tLookup users by name\n");
-		printf("4.\tLookup users by surname\n");
-		printf("5.\tLookup users by age\n");
-		printf("6.\tExit\n\n");
+		printf(" 1.\tAdd user\n");
+		printf(" 2.\tShow users\n");
+		printf(" 3.\tLookup users by name\n");
+		printf(" 4.\tLookup users by surname\n");
+		printf(" 5.\tLookup users by age\n");
+		printf(" 6.\tSort by name\n");
+		printf(" 7.\tSort by surname\n");
+		printf(" 8.\tSort by age\n");
+		printf(" 9.\tSort by name and surname\n");
+		printf("10.\tSort by name, then age\n");
+		printf("11.\tSort by surname, then age\n");
+		printf("12.\tSort by name and surname, then age\n");
+		printf("13.\tExit\n\n");
 		printf("Choose: ");
 		scanf("%d", &choose);
 		
@@ -48,6 +55,41 @@ int main(int argc, char *argv[]) {
 			case 5:
 				usersFile = fopen("test.txt", "r");
 				lookupByAge(usersFile);
+				fclose(usersFile);
+				break;
+			case 6:
+				usersFile = fopen("test.txt", "r");
+				sortByName(usersFile);
+				fclose(usersFile);
+				break;
+			case 7:
+				usersFile = fopen("test.txt", "r");
+				sortBySurname(usersFile);
+				fclose(usersFile);
+				break;
+			case 8:
+				usersFile = fopen("test.txt", "r");
+			    sortByAge(usersFile);
+				fclose(usersFile);
+				break;
+			case 9:
+				usersFile = fopen("test.txt", "r");
+				sortByNameAndSurname(usersFile);
+				fclose(usersFile);
+				break;
+			case 10:
+				usersFile = fopen("test.txt", "r");
+				sortByNameAndAge(usersFile);
+				fclose(usersFile);
+				break;
+			case 11:
+				usersFile = fopen("test.txt", "r");
+				sortBySurnameAndAge(usersFile);
+				fclose(usersFile);
+				break;
+			case 12:
+				usersFile = fopen("test.txt", "r");
+				sortByNameSurnameAndAge(usersFile);
 				fclose(usersFile);
 				break;
 			default:
@@ -170,4 +212,316 @@ void lookupByAge(FILE *usersFile) {
 	}
 	fclose(usersFile);
 	system("PAUSE");
+}
+
+void sortByName(FILE *usersFile) {
+	int numOfElements, i, j, min;
+	user rec;
+	user *users;
+	
+	system("CLS");
+	
+	numOfElements = getLinesQuantity(usersFile);
+	users = malloc (numOfElements * sizeof(user));
+	getUsersArray(usersFile, numOfElements, users);
+	
+	for(i = 0; i < numOfElements; i++) {
+		min = i;
+		for(j = i + 1; j < numOfElements; j++) {
+			if(strcmp(users[j].name, users[i].name) < 0) {
+				min = j;
+			}
+		}
+		
+		rec = users[i];
+		users[i] = users[min];
+		users[min] = rec;
+	}
+	
+	printf("Name       | Surname    | Age \n");
+	for(i = 0; i < numOfElements; i++) {
+		rec = users[i];
+		printf("%10s | %10s | %10d\n", rec.name, rec.surname, rec.age);
+	}
+	
+	system("PAUSE");
+}
+
+void sortBySurname(FILE *usersFile) {
+	int numOfElements, i, j, min;
+	user rec;
+	user *users;
+	
+	system("CLS");
+	
+	numOfElements = getLinesQuantity(usersFile);
+	users = malloc (numOfElements * sizeof(user));
+	getUsersArray(usersFile, numOfElements, users);
+	
+	for(i = 0; i < numOfElements; i++) {
+		min = i;
+		for(j = i + 1; j < numOfElements; j++) {
+			if(strcmp(users[j].surname, users[i].surname) < 0) {
+				min = j;
+			}
+		}
+		
+		rec = users[i];
+		users[i] = users[min];
+		users[min] = rec;
+	}
+	
+	printf("Name       | Surname    | Age \n");
+	for(i = 0; i < numOfElements; i++) {
+		rec = users[i];
+		printf("%10s | %10s | %10d\n", rec.name, rec.surname, rec.age);
+	}
+	
+	system("PAUSE");
+}
+
+void sortByAge(FILE *usersFile) {
+	int numOfElements, i, j, min;
+	user rec;
+	user *users;
+	
+	system("CLS");
+	
+	numOfElements = getLinesQuantity(usersFile);
+	users = malloc (numOfElements * sizeof(user));
+	getUsersArray(usersFile, numOfElements, users);
+	
+	for(i = 0; i < numOfElements; i++) {
+		min = i;
+		for(j = i + 1; j < numOfElements; j++) {
+			if(users[j].age < users[i].age) {
+				min = j;
+			}
+		}
+		
+		rec = users[i];
+		users[i] = users[min];
+		users[min] = rec;
+	}
+	
+	printf("Name       | Surname    | Age \n");
+	for(i = 0; i < numOfElements; i++) {
+		rec = users[i];
+		printf("%10s | %10s | %10d\n", rec.name, rec.surname, rec.age);
+	}
+	
+	system("PAUSE");
+}
+
+void sortByNameAndSurname(FILE *usersFile) {
+	int numOfElements, i, j, min;
+	user rec;
+	user *users;
+	
+	system("CLS");
+	
+	numOfElements = getLinesQuantity(usersFile);
+	users = malloc (numOfElements * sizeof(user));
+	getUsersArray(usersFile, numOfElements, users);
+	
+	for(i = 0; i < numOfElements; i++) {
+		min = i;
+		for(j = i + 1; j < numOfElements; j++) {
+			if(strcmp(users[j].name, users[i].name) < 0 && strcmp(users[j].surname, users[i].surname) < 0) {
+				min = j;
+			}
+		}
+		
+		rec = users[i];
+		users[i] = users[min];
+		users[min] = rec;
+	}
+	
+	printf("Name       | Surname    | Age \n");
+	for(i = 0; i < numOfElements; i++) {
+		rec = users[i];
+		printf("%10s | %10s | %10d\n", rec.name, rec.surname, rec.age);
+	}
+	
+	system("PAUSE");
+}
+
+void sortByNameAndAge(FILE *usersFile) {
+	int numOfElements, i, j, min;
+	user rec;
+	user *users;
+	
+	system("CLS");
+	
+	numOfElements = getLinesQuantity(usersFile);
+	users = malloc (numOfElements * sizeof(user));
+	getUsersArray(usersFile, numOfElements, users);
+	
+	for(i = 0; i < numOfElements; i++) {
+		min = i;
+		for(j = i + 1; j < numOfElements; j++) {
+			if(strcmp(users[j].name, users[i].name) < 0 && users[j].age < users[i].age) {
+				min = j;
+			}
+		}
+		
+		rec = users[i];
+		users[i] = users[min];
+		users[min] = rec;
+	}
+	
+	for(i = 0; i < numOfElements; i++) {
+		min = i;
+		for(j = i + 1; j < numOfElements; j++) {
+			if(users[j].age < users[i].age) {
+				min = j;
+			}
+		}
+		
+		rec = users[i];
+		users[i] = users[min];
+		users[min] = rec;
+	}
+	
+	printf("Name       | Surname    | Age \n");
+	for(i = 0; i < numOfElements; i++) {
+		rec = users[i];
+		printf("%10s | %10s | %10d\n", rec.name, rec.surname, rec.age);
+	}
+	
+	system("PAUSE");
+}
+
+void sortBySurnameAndAge(FILE *usersFile) {
+	int numOfElements, i, j, min;
+	user rec;
+	user *users;
+	
+	system("CLS");
+	
+	numOfElements = getLinesQuantity(usersFile);
+	users = malloc (numOfElements * sizeof(user));
+	getUsersArray(usersFile, numOfElements, users);
+	
+	for(i = 0; i < numOfElements; i++) {
+		min = i;
+		for(j = i + 1; j < numOfElements; j++) {
+			if(strcmp(users[j].surname, users[i].surname) < 0) {
+				min = j;
+			}
+		}
+		
+		rec = users[i];
+		users[i] = users[min];
+		users[min] = rec;
+	}
+	
+	for(i = 0; i < numOfElements; i++) {
+		min = i;
+		for(j = i + 1; j < numOfElements; j++) {
+			if(users[j].age < users[i].age) {
+				min = j;
+			}
+		}
+		
+		rec = users[i];
+		users[i] = users[min];
+		users[min] = rec;
+	}
+	
+	printf("Name       | Surname    | Age \n");
+	for(i = 0; i < numOfElements; i++) {
+		rec = users[i];
+		printf("%10s | %10s | %10d\n", rec.name, rec.surname, rec.age);
+	}
+	
+	system("PAUSE");
+}
+
+void sortByNameSurnameAndAge(FILE *usersFile) {
+	int numOfElements, i, j, min;
+	user rec;
+	user *users;
+	
+	system("CLS");
+	
+	numOfElements = getLinesQuantity(usersFile);
+	users = malloc (numOfElements * sizeof(user));
+	getUsersArray(usersFile, numOfElements, users);
+	
+	for(i = 0; i < numOfElements; i++) {
+		min = i;
+		for(j = i + 1; j < numOfElements; j++) {
+			if(strcmp(users[j].name, users[i].name) < 0 && strcmp(users[j].surname, users[i].surname) < 0) {
+				min = j;
+			}
+		}
+		
+		rec = users[i];
+		users[i] = users[min];
+		users[min] = rec;
+	}
+	
+	for(i = 0; i < numOfElements; i++) {
+		min = i;
+		for(j = i + 1; j < numOfElements; j++) {
+			if(users[j].age < users[i].age) {
+				min = j;
+			}
+		}
+		
+		rec = users[i];
+		users[i] = users[min];
+		users[min] = rec;
+	}
+	
+	printf("Name       | Surname    | Age \n");
+	for(i = 0; i < numOfElements; i++) {
+		rec = users[i];
+		printf("%10s | %10s | %10d\n", rec.name, rec.surname, rec.age);
+	}
+	
+	system("PAUSE");
+}
+
+int getLinesQuantity(FILE *usersFile) {
+	char a[100];
+	char b[100];
+	int c;
+	int lines = 0;
+	
+	fclose(usersFile);
+	usersFile = fopen("test.txt", "r");
+	
+	while(!feof(usersFile)) {
+		fscanf(usersFile, "%s%s%d\n", &a, &b, &c);
+		lines++;
+	}
+	
+	fclose(usersFile);
+	usersFile = fopen("test.txt", "r");
+	
+	return lines;
+}
+
+void getUsersArray(FILE *usersFile, int elements, user *output) {
+	char name[100];
+	char surname[100];
+	int age;
+	
+	int ind = 0;
+	
+	fclose(usersFile);
+	usersFile = fopen("test.txt", "r");
+	
+	while(!feof(usersFile)) {
+		fscanf(usersFile, "%s%s%d\n", &name, &surname, &age);
+		strcpy(output[ind].name, name);
+		strcpy(output[ind].surname, surname);
+		output[ind].age = age;
+		ind++;
+	}
+	
+	fclose(usersFile);
+	usersFile = fopen("test.txt", "r");
 }
