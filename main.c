@@ -20,6 +20,7 @@ int main(int argc, char *argv[]) {
 		system("CLS");
 		printf("Menu:\n");
 		printf("1.\tAdd user\n");
+		printf("2.\tShow users\n");
 		printf("3.\tExit\n\n");
 		printf("Choose: ");
 		scanf("%d", &choose);
@@ -47,6 +48,21 @@ int main(int argc, char *argv[]) {
 				fclose(out);
 				
 				printf("[ok] User added correctly.\n");
+				system("PAUSE");
+				break;
+			case 2:
+				system("CLS");
+				out = fopen("test.txt", "r");
+				if(out == NULL) {
+					printf("[err] File non aperto.");
+					exit(1);
+				}
+				printf("Name       | Surname    | Age \n");
+				while(!feof(out)) {
+					fscanf(out, "%s%s%d\n", &rec.name, &rec.surname, &rec.age);
+					printf("%10s | %10s | %10d\n", rec.name, rec.surname, rec.age);
+				}
+				fclose(out);
 				system("PAUSE");
 				break;
 			default:
