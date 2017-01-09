@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 				break;
 			case 4:
 				usersFile = fopen("test.txt", "r");
-				// lookupBySurname(usersFile);
+				lookupBySurname(usersFile);
 				fclose(usersFile);
 				break;
 			case 5:
@@ -120,6 +120,29 @@ void lookupByName(FILE *usersFile) {
 	while(!feof(usersFile)) {
 		fscanf(usersFile, "%s%s%d\n", &rec.name, &rec.surname, &rec.age);
 		if(strcmp(rec.name, name) == 0)
+			printf("%10s | %10s | %10d\n", rec.name, rec.surname, rec.age);
+	}
+	fclose(usersFile);
+	system("PAUSE");
+}
+
+void lookupBySurname(FILE *usersFile) {
+	char surname[100];
+	user rec;
+	
+	system("CLS");
+	printf("[i] Insert surname to search for: ");
+	scanf("%s", &surname);
+	
+	system("CLS");
+	if(usersFile == NULL) {
+		printf("[err] Error while opening the usersFile.");
+		exit(1);
+	}
+	printf("Name       | Surname    | Age \n");
+	while(!feof(usersFile)) {
+		fscanf(usersFile, "%s%s%d\n", &rec.name, &rec.surname, &rec.age);
+		if(strcmp(rec.surname, surname) == 0)
 			printf("%10s | %10s | %10d\n", rec.name, rec.surname, rec.age);
 	}
 	fclose(usersFile);
