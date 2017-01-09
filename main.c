@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
 	int choose;
 	FILE *usersFile;
 	
-	while(choose != 13) {
+	while(choose != 14) {
 		system("CLS");
 		printf("Menu:\n");
 		printf(" 1.\tAdd user\n");
@@ -27,7 +27,8 @@ int main(int argc, char *argv[]) {
 		printf("10.\tSort by name, then age\n");
 		printf("11.\tSort by surname, then age\n");
 		printf("12.\tSort by name and surname, then age\n");
-		printf("13.\tExit\n\n");
+		printf("13.\tDelete from file\n");
+		printf("14.\tExit\n\n");
 		printf("Choose: ");
 		scanf("%d", &choose);
 		
@@ -90,6 +91,11 @@ int main(int argc, char *argv[]) {
 			case 12:
 				usersFile = fopen("test.txt", "r");
 				sortByNameSurnameAndAge(usersFile);
+				fclose(usersFile);
+				break;
+			case 13:
+				usersFile = fopen("test.txt", "r");
+				deleteFromFile(usersFile);
 				fclose(usersFile);
 				break;
 			default:
@@ -480,6 +486,52 @@ void sortByNameSurnameAndAge(FILE *usersFile) {
 		rec = users[i];
 		printf("%10s | %10s | %10d\n", rec.name, rec.surname, rec.age);
 	}
+	
+	system("PAUSE");
+}
+
+void deleteFromFile(FILE *usersFile) {
+	int line = 1;
+	int toDelete = 0;
+	user rec;
+	FILE *subFile;
+	
+	system("CLS");
+	printf("ID | Name       | Surname    | Age \n");
+	while(!feof(usersFile)) {
+		fscanf(usersFile, "%s%s%d\n", &rec.name, &rec.surname, &rec.age);
+		printf("%2d | %10s | %10s | %10d\n", line, rec.name, rec.surname, rec.age);
+		line++;
+	}
+	fclose(usersFile);
+	
+	printf("\n[i] Insert ID to delete: ");
+	scanf("%d", &toDelete);
+	
+	line = 0;
+	usersFile = fopen("test.txt", "r");
+	subFile = fopen("test.txt.sub", "w");
+	while(!feof(usersFile)) {
+		fscanf(usersFile, "%s%s%d\n", &rec.name, &rec.surname, &rec.age);
+		if(line != toDelete) {
+			fprintf(subFile, "%s %s %d\n", rec.name, rec.surname, rec.age);
+		}
+		line++;
+	}
+	fclose(usersFile);
+	fclose(subFile);
+	
+	remove("test.txt");
+	rename("test.txt.sub", "test.txt");
+	
+	system("CLS");
+	usersFile = fopen("test.txt", "r");
+	printf("Name       | Surname    | Age \n");
+	while(!feof(usersFile)) {
+		fscanf(usersFile, "%s%s%d\n", &rec.name, &rec.surname, &rec.age);
+		printf("%10s | %10s | %10d\n", rec.name, rec.surname, rec.age);
+	}
+	fclose(usersFile);
 	
 	system("PAUSE");
 }
